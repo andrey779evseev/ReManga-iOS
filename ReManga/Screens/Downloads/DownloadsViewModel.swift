@@ -36,7 +36,7 @@ class DownloadsViewModel: BaseViewModel {
         guard let model = model as? DownloadsMangaViewModel
         else { return }
 
-        downloadManager.deleteChapters(of: model.id)
+        downloadManager.deleteManga(model.id)
     }
 }
 

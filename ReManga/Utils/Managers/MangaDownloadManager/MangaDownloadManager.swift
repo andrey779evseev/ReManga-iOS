@@ -118,14 +118,12 @@ class MangaDownloadManager {
         return pages
     }
     
-    func deleteChapters(of mangaId: String) {
-        guard let mangaModel = downloadedManga.value[mangaId]
-        else { return }
-        
-        for chapter in mangaModel.chapters.value {
-            for page in chapter.pages {
-                try? FileManager.default.removeItem(atPath: page.path)
-            }
+    func deleteManga(_ mangaId: String) {
+        do {
+            let mangaPath = MangaDownloadManager.imageLocalPath.appending(component: mangaId)
+            try FileManager.default.removeItem(at: mangaPath)
+        } catch let error {
+            print("error while deleting chapters", error.localizedDescription)
         }
         
         var tmp = downloadedManga.value
@@ -134,14 +132,20 @@ class MangaDownloadManager {
     }
     
     func deleteChapter(_ chapterId: String, of mangaId: String) {
-        guard let mangaModel = downloadedManga.value[mangaId] else { return }
-        guard let chapterModel = mangaModel.chapters.value.first(where: {$0.id == chapterId}) else { return }
-        for page in chapterModel.pages {
-            try? FileManager.default.removeItem(atPath: page.path)
+        var tmp = downloadedManga.value
+        let chapters = tmp[mangaId]!.chapters.value
+        do {
+            let path = MangaDownloadManager.imageLocalPath.appending(component: chapters.count > 1 ? "\(mangaId)/\(chapterId)" : mangaId)
+            try FileManager.default.removeItem(at: path)
+        } catch let error {
+            print("error while deleting chapter", error.localizedDescription)
         }
         
-        let tmp = downloadedManga.value
-        tmp[mangaId]?.chapters.accept(tmp[mangaId]!.chapters.value.filter { $0.id != chapterId })
+        if chapters.count > 1 {
+            tmp[mangaId]?.chapters.accept(chapters.filter { $0.id != chapterId })
+        } else {
+            tmp[mangaId] = nil
+        }
         downloadedManga.accept(tmp)
     }
 }
@@ -212,6 +216,6 @@ private extension MangaDownloadManager {
     }
     
     func keyFrom(_ mangaId: String, api: ApiProtocol) -> String {
-        "\(api.name):\(mangaId)"
+        "\(api.name)-\(mangaId)"
     }
 }
