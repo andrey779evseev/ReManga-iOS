@@ -59,7 +59,7 @@ class MangaDetailsViewController_Thin<VM: MangaDetailsViewModel>: BaseViewContro
                       let url = URL(string: path)
                 else { return }
 
-                KingfisherManager.shared.retrieveImage(with: url, options: [.cacheMemoryOnly, .memoryCacheExpiration(.seconds(60*10))]) { [weak self] res in
+                KingfisherManager.shared.retrieveImage(with: url, options: [.diskCacheExpiration(.seconds(60*5))]) { [weak self] res in
                     guard let self else { return }
                     updateGradientBlobsView(with: try? res.get().image)
                 }

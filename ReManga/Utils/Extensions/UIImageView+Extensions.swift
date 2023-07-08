@@ -31,7 +31,7 @@ extension Reactive where Base: UIImageView {
             guard let image else { return }
             activityIndicator?.startAnimating()
 
-            var options: KingfisherOptionsInfo = [.cacheMemoryOnly, .memoryCacheExpiration(.seconds(60*5))]
+            var options: KingfisherOptionsInfo = [.diskCacheExpiration(.seconds(60*5))]
             if let modifier {
                 options.append(.requestModifier(modifier))
             }

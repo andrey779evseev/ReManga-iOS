@@ -92,8 +92,7 @@ class MangaDownloadManager {
             var options: KingfisherOptionsInfo = []
             options.append(.requestModifier(api.kfAuthModifier))
             options.append(.cacheMemoryOnly)
-            options.append(.fromMemoryCacheOrRefresh)
-            options.append(.memoryCacheExpiration(.seconds(60*2)))
+            options.append(.memoryCacheExpiration(.expired))
             
             let image = try await withCheckedThrowingContinuation { continuation in
                 kingfisher.retrieveImage(with: url, options: options) { receivedSize, totalSize in

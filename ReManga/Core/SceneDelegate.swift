@@ -7,6 +7,7 @@
 
 import MvvmFoundation
 import UIKit
+import Kingfisher
 
 public extension ContainerKey {
     enum Backend: Codable {
@@ -36,6 +37,8 @@ public extension ContainerKey {
 class SceneDelegate: MvvmSceneDelegate {
     override func initialSetup() {
         UIView.enableUIColorsToLayer()
+        ImageCache.default.memoryStorage.config.totalCostLimit = 200 * 1024 * 1024
+        ImageCache.default.diskStorage.config.sizeLimit = 1024 * 1024 * 1024
     }
 
     override func register(in container: Container) {
