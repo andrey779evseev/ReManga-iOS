@@ -53,6 +53,7 @@ class MangaReaderLoadNextCell<VM: MangaReaderLoadNextViewModel>: MvvmCollectionV
             titleLabel.text = nextText
 
             if bottomConstraint.constant > 100 {
+                collectionView.setContentOffset(CGPoint(x: 0, y: 44.0), animated: false)
                 viewModel.loadNext.accept(())
             }
 

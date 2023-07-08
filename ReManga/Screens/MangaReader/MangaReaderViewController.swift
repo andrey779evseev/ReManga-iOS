@@ -88,8 +88,14 @@ class MangaReaderViewController<VM: MangaReaderViewModelProtocol>: BaseViewContr
             previousButton.rx.isEnabled <- viewModel.previousActionAvailable
             nextButton.rx.isEnabled <- viewModel.nextActionAvailable
 
-            viewModel.gotoPreviousChapter <- previousButton.rx.tap
-            viewModel.gotoNextChapter <- nextButton.rx.tap
+            previousButton.rx.tap.bind { [unowned self] _ in
+                collectionView.setContentOffset(CGPoint(x: 0, y: navigationBar.frame.height), animated: false)
+                viewModel.gotoNextChapter()
+            }
+            nextButton.rx.tap.bind { [unowned self] _ in
+                collectionView.setContentOffset(CGPoint(x: 0, y: navigationBar.frame.height), animated: false)
+                viewModel.gotoNextChapter()
+            }
             headerTitleButton.rx.title() <- viewModel.chapterName
 
             viewModel.toggleLike <- likeButton.rx.tap
