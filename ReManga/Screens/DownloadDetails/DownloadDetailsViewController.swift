@@ -25,6 +25,13 @@ class DownloadDetailsViewController<VM: DownloadDetailsViewModel>: BaseViewContr
             viewModel.itemSelected <- dataSource.modelSelected
             dataSource.deselectItems <- viewModel.deselectItems
         }
+        
+        dataSource.trailingSwipeActionsConfigurationProvider = { indexPath in
+            .init(actions: [.init(style: .destructive, title: "Удалить", handler: { [unowned self] _, _, _ in
+                let model = dataSource.snapshot().sectionIdentifiers[indexPath.section].items[indexPath.item]
+                viewModel.deleteModel(model)
+            })])
+        }
     }
 
 }

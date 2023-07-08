@@ -9,11 +9,13 @@ import MvvmFoundation
 import RxRelay
 
 class DownloadDetailsChapterViewModel: MvvmViewModelWith<MangaChapterDownloadModel> {
+    let id = BehaviorRelay<String>(value: "")
     let tome = BehaviorRelay<String>(value: "")
     let chapter = BehaviorRelay<String>(value: "")
     var pages = BehaviorRelay<[ApiMangaChapterPageModel]>(value: [])
 
     override func prepare(with model: MangaChapterDownloadModel) {
+        id.accept(model.id)
         title.accept(model.title)
         tome.accept(model.tome)
         chapter.accept("Глава \(model.chapter)")

@@ -37,6 +37,12 @@ class DownloadDetailsViewModel: BaseViewModelWith<DownloadsMangaViewModel> {
         navigate(to: OfflineMangaReaderViewModel.self, with: .init(chapters: allChapters, current: Int(index)), by: .present(wrapInNavigation: false))
         deselectItems.accept(())
     }
+    
+    func deleteModel(_ model: MvvmViewModel) {
+        guard let model = model as? DownloadDetailsChapterViewModel
+        else { return }
+        downloadManager.deleteChapter(model.id.value, of: id!)
+    }
 }
 
 private extension DownloadDetailsViewModel {

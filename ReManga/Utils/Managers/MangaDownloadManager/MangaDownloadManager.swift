@@ -130,8 +130,16 @@ class MangaDownloadManager {
         downloadedManga.accept(tmp)
     }
     
-    func deleteChapter(_ chapter: MangaDetailsChapterViewModel, of manga: DownloadsMangaViewModel) {
+    func deleteChapter(_ chapterId: String, of mangaId: String) {
+        guard let mangaModel = downloadedManga.value[mangaId] else { return }
+        guard let chapterModel = mangaModel.chapters.value.first(where: {$0.id == chapterId}) else { return }
+        for page in chapterModel.pages {
+            try? FileManager.default.removeItem(atPath: page.path)
+        }
         
+        let tmp = downloadedManga.value
+        tmp[mangaId]?.chapters.accept(tmp[mangaId]!.chapters.value.filter { $0.id != chapterId })
+        downloadedManga.accept(tmp)
     }
 }
 
