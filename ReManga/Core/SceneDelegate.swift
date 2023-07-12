@@ -56,6 +56,7 @@ class SceneDelegate: MvvmSceneDelegate {
 
         // Screens
         router.register(MvvmTabBarController<MainTabBarViewModel>.self)
+        router.register(OverviewViewController<OverviewViewModel>.self)
         router.register(CatalogViewController<CatalogViewModel>.self)
         router.register(CatalogFiltersViewController<CatalogFiltersViewModel>.self)
         router.register(HistoryViewController<HistoryViewModel>.self)
@@ -113,6 +114,9 @@ class SceneDelegate: MvvmSceneDelegate {
 
         // History cells
         router.register(ListViewMangaCell<HistoryMangaItemViewModel>.self)
+
+        // Widget cells
+        router.register(WidgetHCollectionCell<WidgetHCollectionViewModel>.self)
     }
 
     override func resolveRootVC() -> UIViewController {
