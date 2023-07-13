@@ -51,7 +51,7 @@ private extension DownloadDetailsViewModel {
         allChapters = models.map { DownloadDetailsChapterViewModel(with: $0) }
         allChapters.sort { l, r in
             if l.tome.value == r.tome.value {
-                return l.chapter.value > r.chapter.value
+                return l.chapter.value.compare(r.chapter.value, options: .numeric) == .orderedDescending
             }
             return l.tome.value > r.tome.value
         }
