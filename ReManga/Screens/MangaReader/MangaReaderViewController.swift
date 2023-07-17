@@ -90,7 +90,7 @@ class MangaReaderViewController<VM: MangaReaderViewModelProtocol>: BaseViewContr
 
             previousButton.rx.tap.bind { [unowned self] _ in
                 collectionView.setContentOffset(CGPoint(x: 0, y: navigationBar.frame.height), animated: false)
-                viewModel.gotoNextChapter()
+                viewModel.gotoPreviousChapter()
             }
             nextButton.rx.tap.bind { [unowned self] _ in
                 collectionView.setContentOffset(CGPoint(x: 0, y: navigationBar.frame.height), animated: false)
